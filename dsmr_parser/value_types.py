@@ -14,7 +14,7 @@ def timestamp(value):
         # not specified
         is_dst = False
 
-    # iso8601
+    # create iso8601 format with as little help as possible
     # 2018-07-11T08:13:33+00:00
     iso8601_value = "20{year}-{month}-{day}T{hour}:{minute}:{second}+{offset}:00".format(
         year=value[0:2],
