@@ -76,7 +76,7 @@ class TelegramParser(object):
         if not checksum_contents:
             raise ParseContentError(
                 'Failed to perform CRC validation because the telegram is '
-                'incomplete: The content values is missing.'
+                'incomplete: The content value is missing.'
             )
         elif checksum_contents and not checksum_hex:
             raise NoChecksumError(
