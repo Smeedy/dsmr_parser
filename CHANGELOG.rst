@@ -1,6 +1,10 @@
 Change Log
 ----------
 
+**0.13** (2018-08-06)
+
+- added a validatorV4 specific error for DSMR V2..V5 generic validation
+
 **0.12** (2018-07-12)
 
 - removed pytz dependency because of TZ caching in serverless application

@@ -73,10 +73,15 @@ class TelegramParser(object):
         # The line ending '\r\n' for the checksum line can be ignored.
         checksum_hex = re.search(r'((?<=\!)[0-9A-Z]{4})+', telegram)
 
-        if not checksum_contents or not checksum_hex:
+        if not checksum_contents:
             raise ParseError(
                 'Failed to perform CRC validation because the telegram is '
-                'incomplete. The checksum and/or content values are missing.'
+                'incomplete: The content values is missing.'
+            )
+        elif checksum_contents and not checksum_hex:
+            raise ParseErrorV4(
+                'Failed to perform CRC validation because the telegram is '
+                'incomplete: The CRC is missing.'
             )
 
         calculated_crc = CRC16().calculate(checksum_contents.group(0))
