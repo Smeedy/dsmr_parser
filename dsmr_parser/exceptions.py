@@ -1,8 +1,8 @@
-class ParseError(Exception):
+class ParseContentError(Exception):
     pass
 
-class ParseErrorV4(Exception):
+class InvalidChecksumError(ParseContentError):
     pass
 
-class InvalidChecksumError(ParseError):
+class NoChecksumError(ParseContentError):
     pass

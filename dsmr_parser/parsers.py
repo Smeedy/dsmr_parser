@@ -4,7 +4,7 @@ import re
 from PyCRC.CRC16 import CRC16
 
 from dsmr_parser.objects import MBusObject, CosemObject
-from dsmr_parser.exceptions import ParseError, ParseErrorV4, InvalidChecksumError
+from dsmr_parser.exceptions import ParseContentError, InvalidChecksumError, NoChecksumError
 
 logger = logging.getLogger(__name__)
 
@@ -74,12 +74,12 @@ class TelegramParser(object):
         checksum_hex = re.search(r'((?<=\!)[0-9A-Z]{4})+', telegram)
 
         if not checksum_contents:
-            raise ParseError(
+            raise ParseContentError(
                 'Failed to perform CRC validation because the telegram is '
                 'incomplete: The content values is missing.'
             )
         elif checksum_contents and not checksum_hex:
-            raise ParseErrorV4(
+            raise NoChecksumError(
                 'Failed to perform CRC validation because the telegram is '
                 'incomplete: The CRC is missing.'
             )

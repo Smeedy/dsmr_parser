@@ -3,11 +3,9 @@ from decimal import Decimal
 import datetime
 import unittest
 
-import pytz
-
 from dsmr_parser import obis_references as obis
 from dsmr_parser import telegram_specifications
-from dsmr_parser.exceptions import InvalidChecksumError, ParseError
+from dsmr_parser.exceptions import InvalidChecksumError, ParseContentError, NoChecksumError
 from dsmr_parser.objects import CosemObject, MBusObject
 from dsmr_parser.parsers import TelegramParser
 from test.example_telegrams import TELEGRAM_V5
@@ -31,7 +29,7 @@ class TelegramParserV5Test(unittest.TestCase):
         assert result[obis.P1_MESSAGE_TIMESTAMP].unit is None
         assert isinstance(result[obis.P1_MESSAGE_TIMESTAMP].value, datetime.datetime)
         assert result[obis.P1_MESSAGE_TIMESTAMP].value == \
-            datetime.datetime(2017, 1, 2, 18, 20, 2, tzinfo=pytz.UTC)
+            datetime.datetime(2017, 1, 2, 18, 20, 2, tzinfo=datetime.timezone.utc)
 
         # ELECTRICITY_USED_TARIFF_1 (1-0:1.8.1)
         assert isinstance(result[obis.ELECTRICITY_USED_TARIFF_1], CosemObject)
@@ -201,5 +199,5 @@ class TelegramParserV5Test(unittest.TestCase):
         # Remove the checksum value causing a ParseError.
         corrupted_telegram = TELEGRAM_V5.replace('!87B3\r\n', '')
 
-        with self.assertRaises(ParseError):
+        with self.assertRaises(ParseContentError):
             TelegramParser.validate_checksum(corrupted_telegram)

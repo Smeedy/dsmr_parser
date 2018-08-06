@@ -4,7 +4,7 @@ import serial
 import serial_asyncio
 
 from dsmr_parser.clients.telegram_buffer import TelegramBuffer
-from dsmr_parser.exceptions import ParseError, InvalidChecksumError
+from dsmr_parser.exceptions import ParseContentError, InvalidChecksumError, NoChecksumError
 from dsmr_parser.parsers import TelegramParser
 
 

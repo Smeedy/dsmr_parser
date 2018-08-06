@@ -4,6 +4,7 @@ from decimal import Decimal
 
 from dsmr_parser.objects import CosemObject, MBusObject
 from dsmr_parser.parsers import TelegramParser
+from dsmr_parser.exceptions import InvalidChecksumError, ParseContentError, NoChecksumError
 from dsmr_parser import telegram_specifications
 from dsmr_parser import obis_references as obis
 from test.example_telegrams import TELEGRAM_V3
@@ -96,3 +97,14 @@ class TelegramParserV3Test(unittest.TestCase):
         assert result[obis.GAS_METER_READING].unit == 'm3'
         assert isinstance(result[obis.GAS_METER_READING].value, Decimal)
         assert result[obis.GAS_METER_READING].value == Decimal('1.001')
+
+    def test_checksum_valid(self):
+        # ParseErrorV4 should be raised.
+        with self.assertRaises(NoChecksumError):
+            TelegramParser.validate_checksum(TELEGRAM_V3)
+
+    def test_checksum_invalid(self):
+        corrupted_telegram = TELEGRAM_V3.replace(
+            '!\r\n',
+            ''
+        )
