@@ -4,7 +4,7 @@ import re
 from PyCRC.CRC16 import CRC16
 
 from dsmr_parser.objects import MBusObject, CosemObject
-from dsmr_parser.exceptions import ParseError, InvalidChecksumError
+from dsmr_parser.exceptions import ParseError, ParseErrorV4, InvalidChecksumError
 
 logger = logging.getLogger(__name__)
 
